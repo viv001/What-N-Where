@@ -65,7 +65,7 @@ def extract_tweet(latitude,longitude):
    	except KeyboardInterrupt:		#To end on keyboard interrupt
 	  print "Keyboard Interrupt given. Ending!! "
 	  return
-	except: 
+	except:					#Socket error  
    	  print "Force close !! Lot of data extracted!! :):D"
 	  return 
 
