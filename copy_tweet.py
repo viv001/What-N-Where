@@ -42,7 +42,7 @@ class StreamListener(tweepy.StreamListener):
        polar = json.load(f)
        if polar["polarity"]=="neutral":
            return True
-       d["data"] = {"message":t["text"],"longitude":t["geo"]["coordinates"][0],"latitude":t["geo"]["coordinates"][1],"polarity":polar["polarity"]}
+       d["data"] = {"message":t["text"],"longitude":t["geo"]["coordinates"][0],"latitude":t["geo"]["coordinates"][1],"sentiment":polar["polarity"]}
 
 #File writing of the extracted data ! !
        with open("tweets.json","w") as outfile:
@@ -62,10 +62,10 @@ def extract_tweet(latitude,longitude):
 	setLocation = [longitude-0.5,latitude-0.5,longitude+0.5,latitude+0.5]
 	try:
 	 streamer.filter(locations = setLocation)
-   	except KeyboardInterrupt:
+   	except KeyboardInterrupt:		#To end on keyboard interrupt
 	  print "Keyboard Interrupt given. Ending!! "
 	  return
-	except: 
+	except:					#Socket error  
    	  print "Force close !! Lot of data extracted!! :):D"
 	  return 
 
