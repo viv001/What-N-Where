@@ -24,7 +24,6 @@ class StreamListener(tweepy.StreamListener):
      try:
        t = json.loads(data)
        d = {}
-       print "123"
        sent_link = "https://api.sentigem.com/external/get-sentiment"
        values = {"api-key":"1084700d32bfd211fcddbe643f66430fLvaKbsk6GN-ehnR_IJFyOtlQmzMA4PoZ","text":t["text"]}
        param = urllib.urlencode(values)
