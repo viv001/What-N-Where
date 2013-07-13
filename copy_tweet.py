@@ -42,7 +42,7 @@ class StreamListener(tweepy.StreamListener):
        polar = json.load(f)
        if polar["polarity"]=="neutral":
            return True
-       d["data"] = {"message":t["text"],"longitude":t["geo"]["coordinates"][0],"latitude":t["geo"]["coordinates"][1],"polarity":polar["polarity"]}
+       d["data"] = {"message":t["text"],"longitude":t["geo"]["coordinates"][0],"latitude":t["geo"]["coordinates"][1],"sentiment":polar["polarity"]}
 
 #File writing of the extracted data ! !
        with open("tweets.json","w") as outfile:
