@@ -1,0 +1,25 @@
+Apr  1 16:48:24 pallav-XPS-L501X anacron[3432]: Job `cron.daily' terminated
+May  2 16:48:24 pallav-XPS-L501X anacron[3432]: Normal exit (1 job run)
+Apr  9 17:17:01 pallav-XPS-L501X CRON[4387]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+May  3 17:39:01 pallav-XPS-L501X CRON[4627]: (root) CMD (  [ -x /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find /var/lib/php5/ -depth -mindepth 1 -maxdepth 1 -type f -cmin +$(/usr/lib/php5/maxlifetime) -delete)
+May  9 18:17:01 pallav-XPS-L501X CRON[5132]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+May  9 18:59:30 pallav-XPS-L501X kernel: [12038.377732] r8169 0000:09:00.0: eth0: link down
+Jun  19 18:59:30 pallav-XPS-L501X NetworkManager[864]: <info> (eth0): carrier now OFF (device state 1)
+May  19 19:01:28 pallav-XPS-L501X kernel: [12156.495473] r8169 0000:09:00.0: eth0: link up
+May  19 19:01:58 pallav-XPS-L501X pppd[1530]: No response to 4 echo-requests
+May  9 19:01:58 pallav-XPS-L501X pppd[1530]: Serial link appears to be disconnected.
+May  10 19:01:58 pallav-XPS-L501X pppd[1530]: Connect time 202.6 minutes.
+May  9 19:01:58 pallav-XPS-L501X pppd[1530]: Sent 16771411 bytes, received 42147479 bytes.
+May  9 19:02:58 pallav-XPS-L501X pppd[1530]: Connection terminated.
+Jun  4 19:03:58 pallav-XPS-L501X avahi-daemon[868]: Withdrawing workstation service for ppp0.
+May  5 19:04:58 pallav-XPS-L501X NetworkManager[864]:    SCPlugin-Ifupdown: devices removed (path: /sys/devices/virtual/net/ppp0, iface: ppp0)
+May  9 19:02:28 pallav-XPS-L501X pppd[1530]: Connected to 00:30:88:13:30:8b via interface eth0
+Aug  11 19:02:28 pallav-XPS-L501X pppd[1530]: Using interface ppp0
+May  29 19:02:28 pallav-XPS-L501X NetworkManager[864]:    SCPlugin-Ifupdown: devices added (path: /sys/devices/virtual/net/ppp0, iface: ppp0)
+May  19 19:02:28 pallav-XPS-L501X NetworkManager[864]:    SCPlugin-Ifupdown: device added (path: /sys/devices/virtual/net/ppp0, iface: ppp0): no ifupdown configuration found.
+May  1 19:02:28 pallav-XPS-L501X pppd[1530]: Connect: ppp0 <--> eth0
+Sep  10 19:02:29 pallav-XPS-L501X pppd[1530]: CHAP authentication succeeded: CHAP authentication success, unit 1436
+May  9 21:02:29 pallav-XPS-L501X pppd[1530]: CHAP authentication succeeded
+May  11 12:02:29 pallav-XPS-L501X pppd[1530]: peer from calling number 00:30:88:13:30:8B authorized
+May  9 11:02:29 pallav-XPS-L501X pppd[1530]: local  IP address 117.206.162.164
+May  13 10:02:29 pallav-XPS-L501X pppd[1530]: remote IP address 117.206.160.1
