@@ -62,7 +62,7 @@ def extract_tweet(latitude,longitude):
 	setLocation = [longitude-0.5,latitude-0.5,longitude+0.5,latitude+0.5]
 	try:
 	 streamer.filter(locations = setLocation)
-   	except KeyboardInterrupt:
+   	except KeyboardInterrupt:		#To end on keyboard interrupt
 	  print "Keyboard Interrupt given. Ending!! "
 	  return
 	except: 
