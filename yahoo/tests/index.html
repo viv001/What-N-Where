@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+<style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 } 
+#map-canvas { height: 100% }
+</style>
+
+<script type="text/javascript"
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKOpfsD8dR68faUgyfz5TFwqmnpkRvrKA&sensor=false">
+</script>
+
+
+<script>
+
+var mymap;
+var mylocation;
+
+function initialize_map() {
+        var myLatlng = new google.maps.LatLng(0,0);
+        var mapOptions = {
+        zoom: 3,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        mymap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        google.maps.event.addListener(mymap, 'click', function(event) {
+                    addMarker(event.latLng);
+        });
+}
+
+function addMarker(location) {
+        if ( mylocation ) {
+                mylocation.setPosition(location);
+        } else {
+                mylocation = new google.maps.Marker({
+                position: location,
+                map: mymap
+                });
+        }
+}
+google.maps.event.addDomListener(window, 'load', initialize_map);
+</script>
+
+<script type="text/javascript" src="../js/jquery-latest.js"></script>
+<script type="text/javascript" src="../js/jquery.tablesorter.js"></script>
+<script type="text/javascript" language="javascript" src="../js/jquery.cookie.js"></script>
+
+
+<!-- Data retrieving callback javascript   -->
+<script type="text/javascript" language="javascript" src="./js/streamData.js"> </script> 
+<!-- -------------------------------------------------------------------------------- -->
+
+</head> 
+
+
+<body onload="getData();"> 
+
+        <center><h1>Yahoo Hack India</h1> </center>
+
+        <!-- Start/Stop streaming button   -->
+        <p align=right >
+        <button onclick="StartStopStreaming()" id="startstop">Start Streaming</button>
+        </p>
+        <!--   -->
+
+
+        <!-- JSON Text Response -->
+        <p hidden>
+        <span id="dataResponse"></span>
+        </p> 
+
+        <form id="frm1" method="post" action="process.php">
+        <input type="hidden" name="latitude" id="latitude" />
+        <input type="hidden" name="longitude" id="longitude" />
+        </form>
+
+
+
+        <!-- Syslog Table view   -->
+        <table hidden id="status" cellspacing="0" class="tablesorter"> </table>
+        <!--    -->
+        
+        <!-- Map View -->
+        <div id="map-canvas"/>
+
+</body> 
+
+<footer>
+        <small>&#169; Copyright VZAP</small>
+</footer>
+
+</html> 

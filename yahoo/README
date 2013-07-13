@@ -1,0 +1,23 @@
+README
+
+# Format of the linux sysfile
+# =======================================================================
+#   Month Data time hostname application[processid]: Message_text 
+# =======================================================================
+
+1. js : folder contains necessary javascript files.
+2. data : folder contains sample syslog file and sample JSON file.
+          Added a random JSON generator file(randomSource.php), which can act as a source of stream and continuously send data.
+3. tests : contains 
+           the index.html, which shows the output of the syslog.
+           test.html, which shows output of syslog along with the JSON response text.
+           retrieve.js, which runs the callback and retrieves data via data stream
+           switch.js, which switches the themes on the webpage.
+
+4. Syslog_parser.py
+The python script can be used to convert the syslog style lines to JSON format. This can be used at the server to send JSON based data stream containing syslog data.
+USAGE : ./Syslog_parser.py logfile
+
+5. Also, added the Jquery plugin "tablesorter", to sort the table contents of the syslog data. 
+-> This also supports sorting based on multiple keys (hold shift key and select multiple columns).
+-> It queries the Jquery tablesorter plugin to get the current sorting parameter from the page using cookie data and after adding new rows to the table(fetching new stream data), it again sorts it using the same sorting parameter, currently chosen by the user.
