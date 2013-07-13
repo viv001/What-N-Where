@@ -1,8 +1,19 @@
 import json
 import time
+import math
 from pprint import pprint
 import urllib
 import urllib2
+import sys
+
+def get_sentiment(s):
+     sent_link = "https://api.sentigem.com/external/get-sentiment"
+     values = {"api-key":"1084700d32bfd211fcddbe643f66430fLvaKbsk6GN-ehnR_IJFyOtlQmzMA4PoZ","text":s}
+     param = urllib.urlencode(values)
+     req = urllib2.Request(sent_link,param)
+     f = urllib2.urlopen(req)
+     polar = json.load(f)
+     return polar["polarity"]
 
 def get_location(post):
       url = "http://query.yahooapis.com/v1/public/yql"
@@ -13,11 +24,19 @@ def get_location(post):
       req = urllib2.Request(url, data)
       response = urllib2.urlopen(req)
       the_page = json.load(response)
-      loc = the_page["query"]["results"]["matches"]["match"]["place"]["centroid"]
-      return (loc["latitude"],loc["longitude"])
+      try:
+        loc = the_page["query"]["results"]["matches"]["match"]["place"]["centroid"]
+        return (loc["latitude"].encode('ascii','ignore'), loc["longitude"].encode('ascii','ignore'))
+      except:
+        return ("", "")
 
 
-token  = "CAACEdEose0cBAFMZCDRED8RagZBitozYZAZAeP6Jn6KQYlZC5yZCgXdqwk3aIEZAusYtfj5jQ1CWI86ViDs4a6LUVbZARaXJAhiHKHpBYUdp4NZBUNZCIRVHW238ZBLKHPZAo7B16PmLHfS9bQX0wkOSm9HTA8sD3nj4mbLu37RisK4oZBQZDZD"
+#START
+
+cur_lat = sys.argv[1]
+cur_lon = sys.argv[2]
+
+token  = "CAACEdEose0cBAKRYlU41yWi9NCWYJorx0QWAPyeeAMaHcSKeMe6EZAwVowNSwxt5zoA0KR8in8n1lBTinPSOcw7Ggiwe0kZCmmulI0GHsTZBzbDyWEXivo2IuEEiGsPB0EZB4iKe0aJsIj5fXo1IzkPH979XyNbLJ5mEaiu49wZDZD"
 base_link = 'https://graph.facebook.com/search?q="the"|"a"&type=post'
 access = '&access_token='+ token
 post_link = base_link + access
@@ -28,19 +47,24 @@ while 1:
    data = json.load(f)
    d = {}
    for k in data["data"]:
-      (lat, lon) = get_location(k["message"])
+      msg = k["message"].encode('ascii', 'ignore')
+      (lat, lon) = get_location(msg)
       if not lat:
           continue
-      #print lat
-      d["data"]= {"message":k["message"], "latitude":lat, "longitude":lon}
+      if math.fabs( float(lat) - float(cur_lat) ) > 1 or math.fabs(float(lon) - float(cur_lon)) > 1:
+	  continue
+      sent = get_sentiment(msg)
+      if sent != "positive" and sent != "negative":
+        continue
+      d["data"]= {"message":msg, "latitude":lat, "longitude":lon, "sentiment":sent}
       with open("fbposts.json", "w") as outfile:
         json.dump(d, outfile)
       outfile.close()
  except KeyboardInterrupt:
    break
- except urllib2.HTTPError:
-   print "Renew access code please"
-   break
+ except urllib2.HTTPError as e:
+   print e
+   continue
  except:
    continue
 
