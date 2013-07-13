@@ -30,6 +30,8 @@ class StreamListener(tweepy.StreamListener):
        req = urllib2.Request(sent_link,param)
        f = urllib2.urlopen(req)
        polar = json.load(f)
+       if polar["polarity"]=="neutral":
+           return True
        d["data"] = {"message":t["text"],"longitude":t["geo"]["coordinates"][0],"latitude":t["geo"]["coordinates"][1],"polarity":polar["polarity"]}
        with open("copy_tweets.json","w") as outfile:
            json.dump(d,outfile)
