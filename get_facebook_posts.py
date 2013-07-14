@@ -10,7 +10,7 @@ import string
 def write_to_tag_cloud(s):
     s = s.translate(string.maketrans("",""), string.punctuation)
     l = s.split()
-    with open("tag_cloud.csv", "a") as myfile:
+    with open("/var/www/yahoo/data/posts.csv", "a") as myfile:
       for e in l:
           myfile.write(e.encode("ascii","ignore")+"\n")
     myfile.close()
@@ -45,11 +45,11 @@ def get_location(post):
 cur_lat = sys.argv[1]
 cur_lon = sys.argv[2]
 
-token  = "CAACEdEose0cBAKRYlU41yWi9NCWYJorx0QWAPyeeAMaHcSKeMe6EZAwVowNSwxt5zoA0KR8in8n1lBTinPSOcw7Ggiwe0kZCmmulI0GHsTZBzbDyWEXivo2IuEEiGsPB0EZB4iKe0aJsIj5fXo1IzkPH979XyNbLJ5mEaiu49wZDZD"
+token  = "CAACEdEose0cBAGpPryeA7y8sDZAWi0lROEs6LWUoqhGIoxpK5RyNTrRNMOyZAflioadIIzOWqviZBzFZAxreF5MZCCayn0vSEZAyFhYHv3GlX9HDbNQtVsiWH1lHsc67c5IkmNqfBywfjqQZCU2gnoMmvRLMH2cbIiGDl0Gsp0wIQZDZD"
 base_link = 'https://graph.facebook.com/search?q="the"|"a"&type=post'
 access = '&access_token='+ token
 post_link = base_link + access
-
+print post_link
 while 1:
  try:
    f = urllib2.urlopen(post_link)
@@ -67,7 +67,7 @@ while 1:
       if sent != "positive" and sent != "negative":
         continue
       d["data"]= {"message":msg, "latitude":lat, "longitude":lon, "sentiment":sent}
-      with open("fbposts.json", "w") as outfile:
+      with open("/var/www/yahoo/data/tweets.json", "w") as outfile:
         json.dump(d, outfile)
       outfile.close()
  except KeyboardInterrupt:
