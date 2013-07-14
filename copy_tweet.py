@@ -35,39 +35,41 @@ class StreamListener(tweepy.StreamListener):
 
 #Sentiment analysis of the tweets !! 
        sent_link = "https://api.sentigem.com/external/get-sentiment"
-       values = {"api-key":"1084700d32bfd211fcddbe643f66430fLvaKbsk6GN-ehnR_IJFyOtlQmzMA4PoZ","text":t["text"]}
+       txt = t["text"].encode("ascii","ignore")
+       values = {"api-key":"1084700d32bfd211fcddbe643f66430fLvaKbsk6GN-ehnR_IJFyOtlQmzMA4PoZ","text":txt}
        param = urllib.urlencode(values)
        req = urllib2.Request(sent_link,param)
        f = urllib2.urlopen(req)
        polar = json.load(f)
        if polar["polarity"]=="neutral":
            return True
-       d["data"] = {"message":t["text"],"longitude":t["geo"]["coordinates"][0],"latitude":t["geo"]["coordinates"][1],"sentiment":polar["polarity"]}
-
+       d["data"] = {"message":txt,"longitude":t["geo"]["coordinates"][1],"latitude":t["geo"]["coordinates"][0],"sentiment":polar["polarity"]}
+       l = []
+       l.append(d)
 #File writing of the extracted data ! !
-       with open("tweets.json","w") as outfile:
-           json.dump(d,outfile)
+       with open("/var/www/yahoo/data/tweets.json","w") as outfile:
+          json.dump(l,outfile)
        outfile.close()
        return True
      except KeyboardInterrupt:
-	print "Keyboard interrupt give .. closing!! "
-	return False
-     except:
-       print "No new tweets !! "
+	   print "Keyboard interrupt give .. closing!! "
+	   return False
+     except Exception as e:
+       print e
        return True
 
 def extract_tweet(latitude,longitude):
 	l = StreamListener()
 	streamer = tweepy.Stream(auth=auth1, listener=l)
-	setLocation = [longitude-0.5,latitude-0.5,longitude+0.5,latitude+0.5]
+	setLocation = [longitude-1.5,latitude-1.5,longitude+1.5,latitude+1.5]
 	try:
-	 streamer.filter(locations = setLocation)
+	  streamer.filter(locations = setLocation)
    	except KeyboardInterrupt:		#To end on keyboard interrupt
 	  print "Keyboard Interrupt given. Ending!! "
 	  return
-	except:					#Socket error  
-   	  print "Force close !! Lot of data extracted!! :):D"
-	  return 
+   	except Exception as e:		#To end on keyboard interrupt
+	  print  e
+	  return
 
 #Program calls the functions here and takes the input
 lat = float(sys.argv[1])
