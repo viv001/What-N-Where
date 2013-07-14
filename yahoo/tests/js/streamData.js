@@ -141,6 +141,7 @@ function stateChanged()
 
 
 
+
                         // Display the JSON stream in the view
                          document.getElementById("dataResponse").innerHTML=xmlHttpData.responseText; 
 
@@ -219,10 +220,11 @@ function StartStopStreaming()
                                 //document.write(data);
                         }
                 });
+                setTimeout(function(){
+                                $('#sidebar_container').fadeOut('slow').fadeIn("slow");
+                                $("#myimg").attr("src", "../images/tag_cloud.png");
+                },10000);
                 document.getElementById('startstop').firstChild.data = "Start Streaming";
                 start=0;
-                setTimeout(function(){
-                        $('#sidebar_container').fadeOut('slow').fadeIn("slow");
-                },10000);
         }
 }

@@ -59,8 +59,6 @@ def parse_csv():
             w = row[0]
             w = w.lower()
             count = count + 1
-            if count>50:
-                break
             if w in word_TF:
                 word_TF[w] = word_TF[w] + 1
             else:
@@ -99,7 +97,7 @@ def create_tagcloud():
         word_list.append(x)
         if len(word_list)>200:
             break
-    tags = make_tags(word_list, maxsize=120)
+    tags = make_tags(word_list, maxsize=60)
 
     create_tag_image(tags, '/var/www/yahoo/images/tag_cloud.png', size=(1500, 1200), fontname='Lobster')
 
