@@ -45,11 +45,10 @@ def get_location(post):
 cur_lat = sys.argv[1]
 cur_lon = sys.argv[2]
 
-token  = "CAACEdEose0cBAGpPryeA7y8sDZAWi0lROEs6LWUoqhGIoxpK5RyNTrRNMOyZAflioadIIzOWqviZBzFZAxreF5MZCCayn0vSEZAyFhYHv3GlX9HDbNQtVsiWH1lHsc67c5IkmNqfBywfjqQZCU2gnoMmvRLMH2cbIiGDl0Gsp0wIQZDZD"
+token  = "CAACEdEose0cBACPCHvv4rVq1KJ2tR0Hcji82mRaetvsfEgAZBIKt3CTSVOfZCxwZBKwvzY5OUhQbFDtCZAQrkrUVsPeeWV95fj2jrJlz79T8SzQKOtqgVKbBh4iMZCNs9EJX3XyHBwRGeoa2a04V3RKyH1fVBNRWYXFWKsKksmQZDZD" 
 base_link = 'https://graph.facebook.com/search?q="the"|"a"&type=post'
 access = '&access_token='+ token
 post_link = base_link + access
-print post_link
 while 1:
  try:
    f = urllib2.urlopen(post_link)
