@@ -19,6 +19,15 @@ d_list=[]
 
 #Using twitter API
 
+def write_to_tag_cloud(s):
+   s = s.translate(string.maketrans("",""), string.punctuation)
+   l = s.split()
+   with open("tag_cloud.csv", "a") as myfile:
+   for e in l:
+      myfile.write(e.encode("ascii","ignore")+"\n")
+   myfile.close()
+
+
 class StreamListener(tweepy.StreamListener):
     def on_error(self, status_code):		#Function if any error occurs in twitter API
         print 'Error: ' + repr(status_code)
@@ -37,6 +46,7 @@ class StreamListener(tweepy.StreamListener):
 #Sentiment analysis of the tweets !! 
        sent_link = "https://api.sentigem.com/external/get-sentiment"
        txt = t["text"].encode("ascii","ignore")
+       write_to_tag_cloud(txt)
        values = {"api-key":"1084700d32bfd211fcddbe643f66430fLvaKbsk6GN-ehnR_IJFyOtlQmzMA4PoZ","text":txt}
        param = urllib.urlencode(values)
        req = urllib2.Request(sent_link,param)
@@ -47,7 +57,7 @@ class StreamListener(tweepy.StreamListener):
        d["data"] = {"message":txt,"longitude":t["geo"]["coordinates"][1],"latitude":t["geo"]["coordinates"][0],"sentiment":polar["polarity"]}
        l = []
        l.append(d)
-#File writing of the extracted data ! !
+       #File writing of the extracted data ! !
        with open("/var/www/yahoo/data/tweets.json","w") as outfile:
           json.dump(l,outfile)
        outfile.close()
