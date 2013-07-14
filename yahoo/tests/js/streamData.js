@@ -15,6 +15,7 @@ var curCircle = 0;
 var Circles = new Array(); 
 var CircleRadius = new Array(); 
 var color = new Array();
+var preText = "";
 
 function change_radius(circle)
 {
@@ -46,7 +47,7 @@ function getData()
                 }
         
                 // Change the url to specify the streaming data input
-                var url="http://localhost/yahoo/data/randomSource.php";
+                var url="http://localhost/yahoo/data/tweets.json";
 
                 //whenever onreadystatechange is triggered, callback function is called
                 xmlHttpData.onreadystatechange=stateChanged;
@@ -67,6 +68,8 @@ function stateChanged()
                 $(document).ready(function() { 
                         // Note : the data must be an array of JSON objects
                         var dataText = xmlHttpData.responseText;
+                        if(dataText!=preText)
+                        {
 
                         //parsing the JSON input
                         dataJSON = JSON.parse(dataText);
@@ -75,11 +78,11 @@ function stateChanged()
                         
                         // Adding the data into the table HTML
                         for (var i = 0; i < dataJSON.length; i++) {
-                                appendString = "<tr><td>"+dataJSON[i].latitude+"</td><td>"+dataJSON[i].longitude+"</td><td>"+dataJSON[i].sentiment+"</td><td>"+dataJSON[i].message+"</td></tr>";
-                                rows += appendString;
+                                //appendString = "<tr><td>"+dataJSON[i].data.latitude+"</td><td>"+dataJSON[i].data.longitude+"</td><td>"+dataJSON[i].data.sentiment+"</td><td>"+dataJSON[i].data.message+"</td></tr>";
+                                //rows += appendString;
 
                                 //add markers
-                                var myLatlng = new google.maps.LatLng(dataJSON[i].latitude,dataJSON[i].longitude);
+                                var myLatlng = new google.maps.LatLng(dataJSON[i].data.latitude,dataJSON[i].data.longitude);
                                 /*
                                 var marker = new google.maps.Marker({
                                         position: myLatlng,
@@ -99,7 +102,7 @@ function stateChanged()
                                 //mymap.setCenter(myLatlng);
                                 curCircle += 1;
                                 color[curCircle] = "#FF0000";
-                                if(dataJSON[i].sentiment == "Good") {
+                                if(dataJSON[i].data.sentiment == "positive") {
                                         color[curCircle] = "#008000";
                                 }
                                 curDeltas[curCircle] = 0;
@@ -115,8 +118,8 @@ function stateChanged()
                                         radius: CircleRadius[curCircle]
                                 };
                                 Circles[curCircle] = new google.maps.Circle(circleOptions);
-//var worker = new Worker(change_radius(curCircle));
-change_radius(curCircle);
+                                //var worker = new Worker(change_radius(curCircle));
+                                change_radius(curCircle);
                                 //if(curCircle > 1)
                                 //        Circles[curCircle-1].setRadius(1);
                                 //curCircle.setMap(null);
@@ -133,11 +136,14 @@ change_radius(curCircle);
                                         Circles[j-1].setRadius(0);
                         }
                         document.getElementById('status').innerHTML = tableHTML+"<tbody>"+rows+"</tbody>";
+                        }
+                        preText = dataText;
 
 
 
                         // Display the JSON stream in the view
                          document.getElementById("dataResponse").innerHTML=xmlHttpData.responseText; 
+
                         //-------------------------------------------------
 
                 });
@@ -174,6 +180,9 @@ function GetxmlHttpDataObject()
 }
 
 // this is function is basically to stop or start the receiving streaming data.
+
+var PID;
+
 function StartStopStreaming()
 {
         if(start==0)
@@ -187,10 +196,10 @@ function StartStopStreaming()
                         cache: false,
                         success: function(data)
                         {
-                                //mymap.setCenter(mylocation.getPosition());
+                                PID = data;
                                 return false;
+                                //mymap.setCenter(mylocation.getPosition());
                                 //document.write(data);
-                                //alert(data);
                         }
                 });
                 start=1;
@@ -199,6 +208,19 @@ function StartStopStreaming()
         }
         else 
         {
+                $.ajax({
+                        type: "POST",
+                        url: "http://localhost/yahoo/tests/stop.php",
+                        data: { 'pid': PID   },
+                        cache: false,
+                        success: function(data)
+                        {
+                                alert(data);
+                                return false;
+                                //mymap.setCenter(mylocation.getPosition());
+                                //document.write(data);
+                        }
+                });
                 document.getElementById('startstop').firstChild.data = "Start Streaming";
                 start=0;
         }
