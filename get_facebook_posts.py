@@ -10,7 +10,7 @@ import string
 def write_to_tag_cloud(s):
     s = s.translate(string.maketrans("",""), string.punctuation)
     l = s.split()
-    with open("tag_cloud.csv", "a") as myfile:
+    with open("/var/www/yahoo/data/posts.csv", "a") as myfile:
       for e in l:
           myfile.write(e.encode("ascii","ignore")+"\n")
     myfile.close()

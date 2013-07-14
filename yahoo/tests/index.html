@@ -1,47 +1,51 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html> 
-<head> 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
-<style type="text/css">
-html { height: 100% }
-body { height: 100%; margin: 0; padding: 0 } 
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>What-n-Where Application</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0; padding: 0 }
 #map-canvas { height: 100% }
-</style>
+  </style>
 
-<script type="text/javascript"
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKOpfsD8dR68faUgyfz5TFwqmnpkRvrKA&sensor=false">
-</script>
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
+  <script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKOpfsD8dR68faUgyfz5TFwqmnpkRvrKA&sensor=false">
+  </script>
+  <script>
 
+  var mymap;
+  var mylocation;
 
-<script>
+  function initialize_map() {
+          var myLatlng = new google.maps.LatLng(0,0);
+          var mapOptions = {
+zoom: 3,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+          mymap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-var mymap;
-var mylocation;
-
-function initialize_map() {
-        var myLatlng = new google.maps.LatLng(0,0);
-        var mapOptions = {
-        zoom: 3,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        mymap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-        google.maps.event.addListener(mymap, 'click', function(event) {
-                    addMarker(event.latLng);
-        });
-}
+          google.maps.event.addListener(mymap, 'click', function(event) {
+                          addMarker(event.latLng);
+                          });
+  }
 
 function addMarker(location) {
         if ( mylocation ) {
                 mylocation.setPosition(location);
         } else {
                 mylocation = new google.maps.Marker({
-                position: location,
-                map: mymap
-                });
-        }
+position: location,
+map: mymap
+});
+}
 }
 google.maps.event.addDomListener(window, 'load', initialize_map);
 </script>
@@ -55,43 +59,91 @@ google.maps.event.addDomListener(window, 'load', initialize_map);
 <script type="text/javascript" language="javascript" src="./js/streamData.js"> </script> 
 <!-- -------------------------------------------------------------------------------- -->
 
-</head> 
+
+</head>
+
+<body onload="getData();">
+  <div id="main">
+    <header>
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html">What-N-<span class="logo_colour">Where??</span></a></h1>
+          <h3> Location based Sentiment Visualization of real-time social posts from Facebook and Twitter</h3>
+        </div>
+      </div>
+      <nav>
+        <ul class="sf-menu" id="nav">
+            <ul>
+              <li><a href="#">Drop Down One</a></li>
+              <li><a href="#">Drop Down Two</a>
+                <ul>
+                  <li><a href="#">Sub Drop Down One</a></li>
+                  <li><a href="#">Sub Drop Down Two</a></li>
+                  <li><a href="#">Sub Drop Down Three</a></li>
+                  <li><a href="#">Sub Drop Down Four</a></li>
+                  <li><a href="#">Sub Drop Down Five</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down Three</a></li>
+              <li><a href="#">Drop Down Four</a></li>
+              <li><a href="#">Drop Down Five</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+     <!-- Start/Stop streaming button   -->
+     <!--   -->
+     <!-- JSON Text Response -->
+     <p>
+     <span hidden id="dataResponse"></span>
+     </p>
+     <!-- <img hidden src="../images/tag_cloud.png" /> -->
+     <!-- Syslog Table view   -->
+     <table hidden id="status" cellspacing="0" class="tablesorter"> </table>
+     <!--    -->
+
+     <!-- Map View -->
+        <!--<div id="map-canvas"/>-->
 
 
-<body onload="getData();"> 
 
-        <center><h1>Yahoo Hack India</h1> </center>
-
-        <!-- Start/Stop streaming button   -->
-        <p align=right >
-        <button onclick="StartStopStreaming()" id="startstop">Start Streaming</button>
-        </p>
-        <!--   -->
-
-
-        <!-- JSON Text Response -->
-        <p>
-        <span hidden id="dataResponse"></span>
-        </p> 
-
-        <form id="frm1" method="post" action="process.php">
-        <input type="hidden" name="latitude" id="latitude" />
-        <input type="hidden" name="longitude" id="longitude" />
-        </form>
-
-
-
-        <!-- Syslog Table view   -->
-        <table hidden id="status" cellspacing="0" class="tablesorter"> </table>
-        <!--    -->
-        
-        <!-- Map View -->
-        <div id="map-canvas"/>
-
-</body> 
-
-<footer>
-        <small>&#169; Copyright VZAP</small>
-</footer>
-
-</html> 
+    <div id="site_content">
+      <div class="gallery">
+        <ul class="images">
+          <li class="show"><img width="950" height="300" src="images/1.jpg" alt="simplistic 1" /></li>
+          <li><img width="950" height="300" src="images/2.jpg" alt="simplistic 2" /></li>
+        </ul>
+      </div>
+      <div id="sidebar_container">
+        <div class="sidebar">
+          <h3 align="right" >Tag Cloud</h3>
+          <img width="400" height="300" src="../images/tag_cloud.png" border="5">
+        </div>
+      </div>
+      <div class="content">
+        <h1>Map</h1>
+     <p align=right >
+     <button onclick="StartStopStreaming()" id="startstop">Start Streaming</button>
+     </p>
+        <div id="map-canvas" style="width:600px;height:500px;"></div>
+      </div>
+    </div>
+    <footer>
+      <p>Copyright &copy; VZAP@iiit</a></p>
+    </footer>
+  </div>
+  <p>&nbsp;</p>
+  <!-- javascript at the bottom for fast page loading -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery.easing-sooper.js"></script>
+  <script type="text/javascript" src="js/jquery.sooperfish.js"></script>
+  <script type="text/javascript" src="js/image_fade.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('ul.sf-menu').sooperfish();
+    });
+  </script>
+</body>
+</html>
