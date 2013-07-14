@@ -4,6 +4,7 @@ import json
 import urllib
 import urllib2
 import sys
+import string
 
 #Details for twitter API !! 
 
@@ -22,9 +23,9 @@ d_list=[]
 def write_to_tag_cloud(s):
    s = s.translate(string.maketrans("",""), string.punctuation)
    l = s.split()
-   with open("tag_cloud.csv", "a") as myfile:
-   for e in l:
-      myfile.write(e.encode("ascii","ignore")+"\n")
+   with open("/var/www/yahoo/data/posts.csv", "a") as myfile:
+      for e in l:
+         myfile.write(e.encode("ascii","ignore")+"\n")
    myfile.close()
 
 
@@ -39,6 +40,7 @@ class StreamListener(tweepy.StreamListener):
     
     def on_data(self, data):			#Function for fetching the tweets and taking the required data !! 
      try:
+       data = data.encode("ascii", "ignore")
        t = json.loads(data)
        d = {}
 

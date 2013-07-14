@@ -141,6 +141,7 @@ function stateChanged()
 
 
 
+
                         // Display the JSON stream in the view
                          document.getElementById("dataResponse").innerHTML=xmlHttpData.responseText; 
 
@@ -187,8 +188,6 @@ function StartStopStreaming()
 {
         if(start==0)
         {
-                document.getElementById("latitude").value = mylocation.getPosition().lat();
-                document.getElementById("longitude").value = mylocation.getPosition().lng();
                 $.ajax({
                         type: "POST",
                         url: "http://localhost/yahoo/tests/process.php",
@@ -197,8 +196,8 @@ function StartStopStreaming()
                         success: function(data)
                         {
                                 PID = data;
+                                mymap.setCenter(mylocation.getPosition());
                                 return false;
-                                //mymap.setCenter(mylocation.getPosition());
                                 //document.write(data);
                         }
                 });
@@ -215,12 +214,16 @@ function StartStopStreaming()
                         cache: false,
                         success: function(data)
                         {
-                                alert(data);
+                                //alert(data);
                                 return false;
                                 //mymap.setCenter(mylocation.getPosition());
                                 //document.write(data);
                         }
                 });
+                setTimeout(function(){
+                                $('#sidebar_container').fadeOut('slow').fadeIn("slow");
+                                $("#myimg").attr("src", "../images/tag_cloud.png");
+                },10000);
                 document.getElementById('startstop').firstChild.data = "Start Streaming";
                 start=0;
         }
