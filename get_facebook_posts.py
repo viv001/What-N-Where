@@ -5,6 +5,15 @@ from pprint import pprint
 import urllib
 import urllib2
 import sys
+import string
+
+def write_to_tag_cloud(s):
+    s = s.translate(string.maketrans("",""), string.punctuation)
+    l = s.split()
+    with open("tag_cloud.csv", "a") as myfile:
+      for e in l:
+          myfile.write(e.encode("ascii","ignore")+"\n")
+    myfile.close()
 
 def get_sentiment(s):
      sent_link = "https://api.sentigem.com/external/get-sentiment"
@@ -54,6 +63,7 @@ while 1:
       if math.fabs( float(lat) - float(cur_lat) ) > 1 or math.fabs(float(lon) - float(cur_lon)) > 1:
 	  continue
       sent = get_sentiment(msg)
+      write_to_tag_cloud(msg)
       if sent != "positive" and sent != "negative":
         continue
       d["data"]= {"message":msg, "latitude":lat, "longitude":lon, "sentiment":sent}
@@ -67,5 +77,4 @@ while 1:
    continue
  except:
    continue
-
 
