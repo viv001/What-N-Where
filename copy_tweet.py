@@ -30,6 +30,7 @@ class StreamListener(tweepy.StreamListener):
     
     def on_data(self, data):			#Function for fetching the tweets and taking the required data !! 
      try:
+       data = data.encode("ascii", "ignore")
        t = json.loads(data)
        d = {}
 
